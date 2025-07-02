@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text to Speech | Voice App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9fbfd;
+      color: #222;
+    }
+
+    .top-bar {
+      background: white;
+      padding: 30px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .top-bar h1 {
+      margin: 0;
+      font-size: 36px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .top-bar .sub {
+      color: #666;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+
+    .main-box {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    form input[type="text"] {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    form button {
+      width: 100%;
+      padding: 15px;
+      background-color: #0066ff;
+      color: white;
+      border: none;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background-color: #004ec2;
+    }
+
+    .result-box, .audio-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f5f8fc;
+      border-left: 4px solid #007bff;
+      border-radius: 10px;
+    }
+
+    .result-box h2,
+    .audio-box h2 {
+      margin-top: 0;
+      color: #007bff;
+    }
+
+    mark {
+      background: yellow;
+      font-weight: bold;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    .download {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .download:hover {
+      background: #1e7e34;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <h1><span>🔊</span> VoiceGen</h1>
+    <p class="sub">Your Smart Text to Speech Assistant</p>
+  </div>
+
+  <div class="main-box">
+    <form method="POST">
+      <input type="text" name="text" placeholder="Type something to speak..." value="{{ request.form.get('text', '') }}" required />
+      <button type="submit">🎤 Convert to Voice</button>
+    </form>
+
+    {% if highlighted %}
+    <div class="result-box">
+      <h2>📝 Highlighted Advice:</h2>
+      <p>{{ highlighted|safe }}</p>
+    </div>
+    {% endif %}
+
+    {% if filename %}
+    <div class="audio-box">
+      <h2>🎧 Listen:</h2>
+      <audio controls>
+        <source src="{{ url_for('download', filename=filename) }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <a class="download" href="{{ url_for('download', filename=filename) }}" download>⬇️ Download MP3</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <footer>
+    <p>© 2025 VoiceGen by Mohsin | All rights reserved</p>
+  </footer>
+</body>
+</html>
